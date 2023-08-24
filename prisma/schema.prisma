@@ -23,6 +23,7 @@ model Route {
   updated_at  DateTime @updatedAt
 }
 
+// o comando npx prisma generate vai criar a tipagem para conseguirmos usar no projeto
 type Place {
   name     String
   location Coord
