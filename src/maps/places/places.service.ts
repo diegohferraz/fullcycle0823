@@ -1,4 +1,4 @@
-import { Client } from '@googlemaps/google-maps-services-js';
+import { Client, PlaceInputType } from '@googlemaps/google-maps-services-js';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
@@ -11,9 +11,12 @@ export class PlacesService {
 
   async findPlace(text: string) {
     const { data } = await this.googleMapsClient.findPlaceFromText({
-      fields: ['place_id', 'formatted_address', 'geometry', 'name'],
-      key: this.configService.get<string>('GOOGLE_MAPS_API_KEY'),
-      input: text,
+      params: {
+        fields: ['place_id', 'formatted_address', 'geometry', 'name'],
+        key: this.configService.get<string>('GOOGLE_MAPS_API_KEY'),
+        input: text,
+        inputtype: PlaceInputType.textQuery
+      }
     })
 
     return data

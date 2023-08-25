@@ -16,3 +16,12 @@ Content-Type: application/json
   "source_id": "1",
   "destination_id": "2"
 }
+
+
+### Mapa
+
+### Pegar Place_id
+GET http://localhost:3000/places?text=Rua Xv de Novembro, José Bonifácio, 115
+
+### pegar direçoes entre dois pontos
+GET http://localhost:3000/directions?originId=ChIJeVqgcuO_vZQR7qzP2nqXtxo&destinationId=ChIJObAfko9SvJQRRQnNFhWiiKw
