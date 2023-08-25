@@ -35,26 +35,29 @@ const NewRoutePage = () => {
 
     const placeSourceId = sourcePlace.candidates[0].place_id
     const placeDestinationId = destinationPlace.candidates[0].place_id
-    
+
     const directionsResponse = await fetch(`http://localhost:3000/directions?originId=${placeSourceId}&destinationId=${placeDestinationId}`)
     const directionsData = await directionsResponse.json()
   };
 
   return (
     <div>
-      <h1>Nova Rota</h1>
-      <form
-        style={{ display: "flex", flexDirection: "column" }}
-        onSubmit={searchPlaces}
-      >
-        <div>
-          <input id="source" type="text" placeholder="origem" />
-        </div>
-        <div>
-          <input id="destination" type="text" placeholder="destino" />
-        </div>
-        <button type="submit">Buscar</button>
-      </form>
+      <div>
+        <h1>Nova Rota</h1>
+        <form
+          style={{ display: "flex", flexDirection: "column" }}
+          onSubmit={searchPlaces}
+        >
+          <div>
+            <input id="source" type="text" placeholder="origem" />
+          </div>
+          <div>
+            <input id="destination" type="text" placeholder="destino" />
+          </div>
+          <button type="submit">Buscar</button>
+        </form>
+      </div>
+      <div id="map"></div>
     </div>
   );
 };
