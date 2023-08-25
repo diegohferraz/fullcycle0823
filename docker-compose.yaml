@@ -9,10 +9,18 @@ services:
     ports:
       - "3000:3000" #habilita a visibilidade da porta 3000 do container rodando
     volumes:
-      - .:/home/node/app #Aqui mapeamos a pasta atual para dentro da pasta /app dentro do container
+      - ./backend:/home/node/app #Aqui mapeamos a pasta atual para dentro da pasta /app dentro do container
+    # extra_hosts:
+      # - "host.docker.internal:172.17.0.1"
   db: #Vai criar outro container chamado db
-    image: bitnami/mongodb:5.0.17 # essa versao tem o lance de replicas configurado, o prisma precisa disso
+    container_name: db
+    image: zcube/bitnami-compat-mongodb
+    # image: bitnami/mongodb:5.0.17 # essa versao tem o lance de replicas configurado, o prisma precisa disso
+    # build: ./.docker/mongo
+    ports:
+      - "27017:27017"
     volumes:
+      # - mongodb_data:/data/db
       - mongodb_data:/bitnami/mongodb #este volume vai ser mapeado nao na maquina mas em um volume do docker
     environment:
       MONGODB_ROOT_PASSWORD: root
