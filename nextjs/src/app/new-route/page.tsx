@@ -1,10 +1,18 @@
 // assim que se informa para o next que este sera um client component
 "use client";
 //o import type vai fazer esse cara ser descartado na compilaçao ja que essa lib só funciona no backend
-import type { FindPlaceFromTextResponseData } from "@googlemaps/google-maps-services-js";
-import { FormEvent } from "react";
+import type { DirectionsResponseData, FindPlaceFromTextResponseData } from "@googlemaps/google-maps-services-js";
+import { Loader } from "@googlemaps/js-api-loader";
+import { FormEvent, useEffect, useRef, useState } from "react";
+import { useMap } from "../hooks/useMap";
 
 const NewRoutePage = () => {
+  const mapContainerRef = useRef<HTMLDivElement>(null)
+  const map = useMap(mapContainerRef)
+  const [directionsData, setDirectionsData] = useState<
+    DirectionsResponseData & { request: any }
+  >();
+
   const searchPlaces = async (event: FormEvent) => {
     event.preventDefault();
     const source = (document.getElementById("source") as HTMLInputElement)
@@ -37,11 +45,27 @@ const NewRoutePage = () => {
     const placeDestinationId = destinationPlace.candidates[0].place_id
 
     const directionsResponse = await fetch(`http://localhost:3000/directions?originId=${placeSourceId}&destinationId=${placeDestinationId}`)
-    const directionsData = await directionsResponse.json()
+    const directionsData: DirectionsResponseData & { request: any } = await directionsResponse.json()
+
+    // setDirectionsData(directionsData);
+console.log(map)
+    map?.removeAllRoutes()
+    await map?.addRouteWithIcons({
+      routeId: "1",
+      startMarkerOptions: {
+        position: directionsData.routes[0].legs[0].start_location,
+      },
+      endMarkerOptions: {
+        position: directionsData.routes[0].legs[0].end_location,
+      },
+      carMarkerOptions: {
+        position: directionsData.routes[0].legs[0].start_location,
+      },
+    });
   };
 
   return (
-    <div>
+    <div style={{ display: "flex", flexDirection: 'row', height: '100%', width: '100%' }}>
       <div>
         <h1>Nova Rota</h1>
         <form
@@ -57,7 +81,8 @@ const NewRoutePage = () => {
           <button type="submit">Buscar</button>
         </form>
       </div>
-      <div id="map"></div>
+      <div ref={mapContainerRef} id="map" style={{ display: "flex", flexDirection: 'row', height: '100%', width: '100%' }}>
+      </div>
     </div>
   );
 };
