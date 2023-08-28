@@ -29,7 +29,7 @@ services:
   #     MONGODB_REPLICA_SET_KEY: 123456
   #     MONGODB_DATABASE: nest
   
-  redis:
+  redis: #para trabalhar com a fila vai precisar do redis
     image: redis:7.0.8-alpine
 
   db:
