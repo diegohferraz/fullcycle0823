@@ -21,7 +21,7 @@
     "repl": "npm run start -- --entryFile repl"
   },
   "dependencies": {
-    "@googlemaps/google-maps-services-js": "^3.3.36",
+    "@googlemaps/google-maps-services-js": "^3.3.41",
     "@nestjs/bull": "^10.0.1",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.0.0",
